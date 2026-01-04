@@ -5,87 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASETACK EVENT EDITOR</title>
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 15px; margin: 0; }
-        h2 { color: #FFD700; border-bottom: 2px solid #FFD700; padding-bottom: 5px; }
+        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 10px; padding-bottom: 100px; }
         .candidate-card { 
-            background: #1e1e1e; border: 1px solid #333; padding: 12px; 
-            margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            background: #1e1e1e; border: 1px solid #333; padding: 10px; 
+            margin-bottom: 12px; border-radius: 6px;
         }
+        .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .venue-name { font-size: 0.8rem; color: #aaa; font-weight: bold; }
+        .link-btn { text-decoration: none; color: #00b0ff; font-size: 0.75rem; border: 1px solid #00b0ff; padding: 2px 6px; border-radius: 4px; }
+        
         input[type="text"] { 
             width: 100%; background: #2a2a2a; color: #fff; border: 1px solid #444; 
-            padding: 8px; margin: 8px 0; border-radius: 4px; box-sizing: border-box;
+            padding: 10px; margin-bottom: 8px; border-radius: 4px; box-sizing: border-box; font-size: 1rem;
         }
-        .controls { display: flex; justify-content: space-around; background: #252525; padding: 8px; border-radius: 4px; }
-        label { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        .controls { display: flex; gap: 15px; background: #252525; padding: 8px; border-radius: 4px; }
+        label { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #FFD700; }
         
         #preview-area { 
             background: #000; color: #00ff00; padding: 15px; border: 1px solid #FFD700; 
-            margin-top: 20px; border-radius: 8px; font-family: 'Courier New', monospace;
-            min-height: 100px; white-space: pre-wrap;
+            margin-top: 20px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.85rem;
         }
         .action-btn { 
             position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #000;
-            width: 60px; height: 60px; border-radius: 50%; border: none; font-weight: bold;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-size: 0.8rem; cursor: pointer;
+            width: 65px; height: 65px; border-radius: 50%; border: none; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-size: 0.8rem; cursor: pointer; z-index: 999;
         }
     </style>
 </head>
 <body>
-    <h2>🚀 EVENT EDITOR</h2>
-    
-    <div id="list-container">
-        <p style="color: #888;">データを読み込み中、または候補がありません...</p>
-    </div>
-
+    <h3 style="color:#FFD700; margin-top:0;">🚀 EVENT EDITOR</h3>
+    <div id="list-container"><p>データを読み込み中...</p></div>
     <button class="action-btn" onclick="generateReport()">生成<br>COPY</button>
-
-    <h3>📝 プレビュー (下書き)</h3>
-    <div id="preview-area" id="output-text">選んだ内容がここに整形されます</div>
+    
+    <div style="margin-top:20px; color:#fff;">📝 プレビュー</div>
+    <div id="preview-area"></div>
 
     <script>
-        // サンプルデータ（本来は event_candidates.json から読み込みます）
-        const sampleData = [
-            { id: 1, text: "18:00? 武道館(16:00- 〇〇ライブ ¥11000❗️)" },
-            { id: 2, text: "15:30  竹芝(おがさわら丸到着予定 ¥ -83140❗️)" },
-            { id: 3, text: "(ETC入口長期工事) C2外 船堀橋" }
-        ];
+        let currentData = [];
+        async function loadData() {
+            try {
+                const response = await fetch('event_candidates.json?t=' + Date.now());
+                currentData = await response.json();
+                render();
+            } catch (e) { document.getElementById('list-container').innerText = "データ準備中...Actionを実行してください"; }
+        }
 
-        function init() {
+        function render() {
             const container = document.getElementById('list-container');
-            container.innerHTML = sampleData.map(item => `
+            container.innerHTML = currentData.map((item, idx) => `
                 <div class="candidate-card">
-                    <input type="text" value="${item.text}" id="input-${item.id}">
+                    <div class="header-row">
+                        <span class="venue-name">${item.venue}</span>
+                        <a href="${item.url}" target="_blank" class="link-btn">公式確認 ↗</a>
+                    </div>
+                    <input type="text" value="${item.info}" id="input-${idx}">
                     <div class="controls">
-                        <label><input type="checkbox" class="pick" data-id="${item.id}"> ⭐ピック</label>
-                        <label><input type="checkbox" class="list" data-id="${item.id}"> 📅時刻表</label>
+                        <label><input type="checkbox" class="pick" data-idx="${idx}"> ⭐ピック</label>
+                        <label><input type="checkbox" class="list" data-idx="${idx}"> 📅時刻表</label>
                     </div>
                 </div>
             `).join('');
         }
 
         function generateReport() {
-            let picks = "[ピックアップ]\n";
+            const now = new Date();
+            const days = ["日","月","火","水","木","金","土"];
+            // 明日の日付にする場合
+            now.setDate(now.getDate() + 1); 
+            
+            let report = `${now.getMonth()+1}/${now.getDate()} (${days[now.getDay()]})\n\n[ピックアップ]\n`;
             let schedules = "\n[時刻表]\n";
             
-            sampleData.forEach(item => {
-                const val = document.getElementById(`input-${item.id}`).value;
-                const isPick = document.querySelector(`.pick[data-id="${item.id}"]`).checked;
-                const isList = document.querySelector(`.list[data-id="${item.id}"]`).checked;
+            currentData.forEach((item, idx) => {
+                const val = document.getElementById(`input-${idx}`).value;
+                const isPick = document.querySelector(`.pick[data-idx="${idx}"]`).checked;
+                const isList = document.querySelector(`.list[data-idx="${idx}"]`).checked;
                 
-                if (isPick) picks += val + "\n";
+                if (isPick) report += val + "\n";
                 if (isList) schedules += val + "\n";
             });
 
-            const finalReport = picks + schedules + "\n[通行止]\n予定なし";
-            document.getElementById('preview-area').innerText = finalReport;
-            
-            // クリップボードにコピー
-            navigator.clipboard.writeText(finalReport).then(() => {
-                alert("レポートをコピーしました！");
-            });
+            const final = report + schedules + "\n[通行止]\n予定なし\n\n(ETC入口長期工事)\nC2外 船堀橋\n5号両 板橋本町";
+            document.getElementById('preview-area').innerText = final;
+            navigator.clipboard.writeText(final);
+            alert("コピーしました！");
         }
-
-        window.onload = init;
+        loadData();
     </script>
 </body>
 </html>
