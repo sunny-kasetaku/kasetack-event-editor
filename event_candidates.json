@@ -1,320 +1,324 @@
 [
   {
+    "type": "meta",
+    "date_str": "1月5日 (月)"
+  },
+  {
+    "type": "data",
     "venue": "IMMシアター",
     "info": "??:??  IMMシアター(??:??-  )",
-    "url": "https://imm.theater/schedule",
-    "is_special": false
+    "url": "https://imm.theater/schedule"
   },
   {
+    "type": "data",
     "venue": "青山学院記念館",
     "info": "??:??  青山学院記念館(??:??-  )",
-    "url": "https://spocale.com/places/77",
-    "is_special": false
+    "url": "https://spocale.com/places/77"
   },
   {
+    "type": "data",
     "venue": "有明アリーナ",
     "info": "??:??  有明アリーナ(??:??-  )",
-    "url": "https://ariake-arena.tokyo/event/",
-    "is_special": false
+    "url": "https://ariake-arena.tokyo/event/"
   },
   {
+    "type": "data",
     "venue": "有明四季劇場",
     "info": "??:??  有明四季劇場(??:??-  )",
-    "url": "https://www.shiki.jp/sp_stage_schedule/?aj=0&rid=0057&ggc=4026#202512",
-    "is_special": false
+    "url": "https://www.shiki.jp/sp_stage_schedule/?aj=0&rid=0057&ggc=4026#202512"
   },
   {
+    "type": "data",
     "venue": "EXシアター六本木",
     "info": "??:??  EXシアター六本木(??:??-  )",
-    "url": "https://www.ex-theater.com/schedule/",
-    "is_special": false
+    "url": "https://www.ex-theater.com/schedule/"
   },
   {
+    "type": "data",
     "venue": "NHKホール",
     "info": "??:??  NHKホール(??:??-  )",
-    "url": "https://www.nhk-fdn.or.jp/nhk_hall/event.html",
-    "is_special": false
+    "url": "https://www.nhk-fdn.or.jp/nhk_hall/event.html"
   },
   {
+    "type": "data",
     "venue": "大井競馬場",
     "info": "??:??  大井競馬場(??:??-  )",
-    "url": "https://www.tokyocitykeiba.com/race/schedule/",
-    "is_special": false
+    "url": "https://www.tokyocitykeiba.com/race/schedule/"
   },
   {
+    "type": "data",
     "venue": "オーチャードホール",
     "info": "??:??  オーチャードホール(??:??-  )",
-    "url": "https://www.bunkamura.co.jp/pickup/performance.html",
-    "is_special": false
+    "url": "https://www.bunkamura.co.jp/pickup/performance.html"
   },
   {
+    "type": "data",
     "venue": "オペラシティ",
     "info": "??:??  オペラシティ(??:??-  )",
-    "url": "https://www.operacity.jp/concert/calendar/",
-    "is_special": false
+    "url": "https://www.operacity.jp/concert/calendar/"
   },
   {
+    "type": "data",
     "venue": "ガーデンシアター",
     "info": "??:??  ガーデンシアター(??:??-  )",
-    "url": "https://www.shopping-sumitomo-rd.com/tokyo_garden_theater/schedule/",
-    "is_special": false
+    "url": "https://www.shopping-sumitomo-rd.com/tokyo_garden_theater/schedule/"
   },
   {
+    "type": "data",
     "venue": "勝島シアターH",
     "info": "??:??  勝島シアターH(??:??-  )",
-    "url": "https://theater-h.jp",
-    "is_special": false
+    "url": "https://theater-h.jp"
   },
   {
+    "type": "data",
     "venue": "歌舞伎座",
     "info": "??:??  歌舞伎座(??:??-  )",
-    "url": "https://www.kabuki-bito.jp/theaters/kabukiza/",
-    "is_special": false
+    "url": "https://www.kabuki-bito.jp/theaters/kabukiza/"
   },
   {
+    "type": "data",
     "venue": "芸術劇場",
     "info": "??:??  芸術劇場(??:??-  )",
-    "url": "https://www.geigeki.jp/calendar/",
-    "is_special": false
+    "url": "https://www.geigeki.jp/calendar/"
   },
   {
+    "type": "data",
     "venue": "JRA競馬",
     "info": "??:??  JRA競馬(??:??-  )",
-    "url": "https://www.jra.go.jp/keiba/calendar/",
-    "is_special": false
+    "url": "https://www.jra.go.jp/keiba/calendar/"
   },
   {
+    "type": "data",
     "venue": "国際フォーラム",
     "info": "??:??  国際フォーラム(??:??-  )",
-    "url": "https://www.t-i-forum.co.jp/visitors/event/",
-    "is_special": false
+    "url": "https://www.t-i-forum.co.jp/visitors/event/"
   },
   {
+    "type": "data",
     "venue": "国立競技場",
     "info": "??:??  国立競技場(??:??-  )",
-    "url": "https://jns-e.com/event/",
-    "is_special": false
+    "url": "https://jns-e.com/event/"
   },
   {
+    "type": "data",
     "venue": "サントリーホール",
     "info": "??:??  サントリーホール(??:??-  )",
-    "url": "https://www.suntory.co.jp/suntoryhall/schedule/",
-    "is_special": false
+    "url": "https://www.suntory.co.jp/suntoryhall/schedule/"
   },
   {
+    "type": "data",
     "venue": "四季劇場[海]",
     "info": "??:??  四季劇場[海](??:??-  )",
-    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0077&ggc=0905",
-    "is_special": false
+    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0077&ggc=0905"
   },
   {
+    "type": "data",
     "venue": "品川プリンス クラブeX",
     "info": "??:??  品川プリンス クラブeX(??:??-  )",
-    "url": "https://www.princehotels.co.jp/shinagawa/clubex/",
-    "is_special": false
+    "url": "https://www.princehotels.co.jp/shinagawa/clubex/"
   },
   {
+    "type": "data",
     "venue": "品川プリンス ステラボール",
     "info": "??:??  品川プリンス ステラボール(??:??-  )",
-    "url": "https://www.princehotels.co.jp/shinagawa/stellarball/",
-    "is_special": false
+    "url": "https://www.princehotels.co.jp/shinagawa/stellarball/"
   },
   {
+    "type": "data",
     "venue": "神宮球場",
     "info": "??:??  神宮球場(??:??-  )",
-    "url": "http://www.jingu-stadium.com/event/",
-    "is_special": false
+    "url": "http://www.jingu-stadium.com/event/"
   },
   {
+    "type": "data",
     "venue": "新国立劇場",
     "info": "??:??  新国立劇場(??:??-  )",
-    "url": "https://www.nntt.jac.go.jp/performance/calendar.html",
-    "is_special": false
+    "url": "https://www.nntt.jac.go.jp/performance/calendar.html"
   },
   {
+    "type": "data",
     "venue": "新橋演舞場",
     "info": "??:??  新橋演舞場(??:??-  )",
-    "url": "https://www.shochiku.co.jp/play/theater/enbujyo/",
-    "is_special": false
+    "url": "https://www.shochiku.co.jp/play/theater/enbujyo/"
   },
   {
+    "type": "data",
     "venue": "すみだトリフォニー",
     "info": "??:??  すみだトリフォニー(??:??-  )",
-    "url": "https://www.triphony.com/concert/202512list.html",
-    "is_special": false
+    "url": "https://www.triphony.com/concert/202512list.html"
   },
   {
+    "type": "data",
     "venue": "Zepp羽田",
     "info": "??:??  Zepp羽田(??:??-  )",
-    "url": "https://www.zepp.co.jp/hall/haneda/schedule/",
-    "is_special": false
+    "url": "https://www.zepp.co.jp/hall/haneda/schedule/"
   },
   {
+    "type": "data",
     "venue": "セルリアン能楽堂",
     "info": "??:??  セルリアン能楽堂(??:??-  )",
-    "url": "https://www.ceruleantower-noh.com/lineup/",
-    "is_special": false
+    "url": "https://www.ceruleantower-noh.com/lineup/"
   },
   {
+    "type": "data",
     "venue": "第一ホテル東京",
     "info": "??:??  第一ホテル東京(??:??-  )",
-    "url": "https://www.hankyu-hotel.com/hotel/dh/dhtokyo/events",
-    "is_special": false
+    "url": "https://www.hankyu-hotel.com/hotel/dh/dhtokyo/events"
   },
   {
+    "type": "data",
     "venue": "宝塚劇場",
     "info": "??:??  宝塚劇場(??:??-  )",
-    "url": "https://kageki.hankyu.co.jp/sp/schedule/index.html",
-    "is_special": false
+    "url": "https://kageki.hankyu.co.jp/sp/schedule/index.html"
   },
   {
+    "type": "data",
     "venue": "竹芝[東海汽船]",
     "info": "??:??  竹芝[東海汽船](??:??-  )",
-    "url": "https://www.tokaikisen.co.jp/boarding/timetable/",
-    "is_special": false
+    "url": "https://www.tokaikisen.co.jp/boarding/timetable/"
   },
   {
+    "type": "data",
     "venue": "竹芝四季劇場[春]",
     "info": "??:??  竹芝四季劇場[春](??:??-  )",
-    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0084",
-    "is_special": false
+    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0084"
   },
   {
+    "type": "data",
     "venue": "竹芝四季劇場[秋]",
     "info": "??:??  竹芝四季劇場[秋](??:??-  )",
-    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0092",
-    "is_special": false
+    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0092"
   },
   {
+    "type": "data",
     "venue": "竹芝自由劇場",
     "info": "??:??  竹芝自由劇場(??:??-  )",
-    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0083",
-    "is_special": false
+    "url": "https://www.shiki.jp/stage_schedule/?aj=0&rid=0083"
   },
   {
+    "type": "data",
     "venue": "秩父宮ラグビー",
     "info": "??:??  秩父宮ラグビー(??:??-  )",
-    "url": "https://www.jpnsport.go.jp/chichibunomiya/event/tabid/59/Default.aspx",
-    "is_special": false
+    "url": "https://www.jpnsport.go.jp/chichibunomiya/event/tabid/59/Default.aspx"
   },
   {
+    "type": "data",
     "venue": "椿山荘",
     "info": "??:??  椿山荘(??:??-  )",
-    "url": "https://hotel-chinzanso-tokyo.jp/event/",
-    "is_special": false
+    "url": "https://hotel-chinzanso-tokyo.jp/event/"
   },
   {
+    "type": "data",
     "venue": "帝国ホテル",
     "info": "??:??  帝国ホテル(??:??-  )",
-    "url": "https://www.imperialhotel.co.jp/tokyo/event",
-    "is_special": false
+    "url": "https://www.imperialhotel.co.jp/tokyo/event"
   },
   {
+    "type": "data",
     "venue": "東京會舘",
     "info": "??:??  東京會舘(??:??-  )",
-    "url": "https://www.kaikan.co.jp/news/event/index.html",
-    "is_special": false
+    "url": "https://www.kaikan.co.jp/news/event/index.html"
   },
   {
+    "type": "data",
     "venue": "東京ドーム",
-    "info": "??:??  東京ドーム(??:??-  )",
-    "url": "https://www.tokyo-dome.co.jp/dome/event/schedule.html",
-    "is_special": false
+    "info": "??:??  東京ドーム(イベントなし?)",
+    "url": "https://www.tokyo-dome.co.jp/dome/event/schedule.html"
   },
   {
+    "type": "data",
     "venue": "東京文化会館",
     "info": "??:??  東京文化会館(??:??-  )",
-    "url": "https://www.t-bunka.jp/stage/",
-    "is_special": false
+    "url": "https://www.t-bunka.jp/stage/"
   },
   {
+    "type": "data",
     "venue": "豊洲PIT",
     "info": "??:??  豊洲PIT(??:??-  )",
-    "url": "https://toyosu.pia-pit.jp",
-    "is_special": false
+    "url": "https://toyosu.pia-pit.jp"
   },
   {
+    "type": "data",
     "venue": "トヨタアリーナ",
     "info": "??:??  トヨタアリーナ(??:??-  )",
-    "url": "https://www.toyota-arena-tokyo.jp/events/",
-    "is_special": false
+    "url": "https://www.toyota-arena-tokyo.jp/events/"
   },
   {
+    "type": "data",
     "venue": "日生劇場",
     "info": "??:??  日生劇場(??:??-  )",
-    "url": "https://www.nissaytheatre.or.jp/schedule/",
-    "is_special": false
+    "url": "https://www.nissaytheatre.or.jp/schedule/"
   },
   {
+    "type": "data",
     "venue": "日本青年館",
     "info": "??:??  日本青年館(??:??-  )",
-    "url": "https://seinenkan-hall.com/category/performance",
-    "is_special": false
+    "url": "https://seinenkan-hall.com/category/performance"
   },
   {
+    "type": "data",
     "venue": "ニューオータニ",
     "info": "??:??  ニューオータニ(??:??-  )",
-    "url": "https://www.newotani.co.jp/tokyo/event/",
-    "is_special": false
+    "url": "https://www.newotani.co.jp/tokyo/event/"
   },
   {
+    "type": "data",
     "venue": "ビッグサイト",
-    "info": "??:??  ビッグサイト(??:??-  )",
-    "url": "https://www.bigsight.jp/visitor/event/",
-    "is_special": false
+    "info": "??:??  ビッグサイト(イベントなし?)",
+    "url": "https://www.bigsight.jp/visitor/event/"
   },
   {
+    "type": "data",
     "venue": "武道館",
-    "info": "??:??  武道館(??:??-  )",
-    "url": "https://www.nipponbudokan.or.jp/schedule/",
-    "is_special": false
+    "info": "??:??  武道館(イベントなし?)",
+    "url": "https://www.nipponbudokan.or.jp/schedule/"
   },
   {
+    "type": "data",
     "venue": "ブルーノート",
     "info": "??:??  ブルーノート(??:??-  )",
-    "url": "https://reserve.bluenote.co.jp/reserve/mb_schedule/",
-    "is_special": false
+    "url": "https://reserve.bluenote.co.jp/reserve/mb_schedule/"
   },
   {
+    "type": "data",
     "venue": "文京シビック",
     "info": "??:??  文京シビック(??:??-  )",
-    "url": "https://www.b-academy.jp/hall/calendar.html",
-    "is_special": false
+    "url": "https://www.b-academy.jp/hall/calendar.html"
   },
   {
+    "type": "data",
     "venue": "ベイコート倶楽部",
     "info": "??:??  ベイコート倶楽部(??:??-  )",
-    "url": "https://www.rtg.jp/hotels/bcc/tokyo/event/",
-    "is_special": false
+    "url": "https://www.rtg.jp/hotels/bcc/tokyo/event/"
   },
   {
+    "type": "data",
     "venue": "平和島競艇",
     "info": "??:??  平和島競艇(??:??-  )",
-    "url": "https://www.heiwajima.gr.jp/sp/01cal/01cal.htm",
-    "is_special": false
+    "url": "https://www.heiwajima.gr.jp/sp/01cal/01cal.htm"
   },
   {
+    "type": "data",
     "venue": "明治座",
     "info": "??:??  明治座(??:??-  )",
-    "url": "https://www.meijiza.co.jp/info/",
-    "is_special": false
+    "url": "https://www.meijiza.co.jp/info/"
   },
   {
+    "type": "data",
     "venue": "代々木第一",
     "info": "??:??  代々木第一(??:??-  )",
-    "url": "https://www.jpnsport.go.jp/yoyogi/event/tabid/59/Default.aspx",
-    "is_special": false
+    "url": "https://www.jpnsport.go.jp/yoyogi/event/tabid/59/Default.aspx"
   },
   {
+    "type": "data",
     "venue": "代々木第二",
     "info": "??:??  代々木第二(??:??-  )",
-    "url": "https://www.jpnsport.go.jp/yoyogi/event/tabid/60/Default.aspx",
-    "is_special": false
+    "url": "https://www.jpnsport.go.jp/yoyogi/event/tabid/60/Default.aspx"
   },
   {
+    "type": "data",
     "venue": "両国国技館",
     "info": "??:??  両国国技館(??:??-  )",
-    "url": "https://kokugikan.sumo.or.jp/Schedule/show",
-    "is_special": false
+    "url": "https://kokugikan.sumo.or.jp/Schedule/show"
   }
 ]
