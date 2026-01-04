@@ -2,12 +2,69 @@ import requests
 from bs4 import BeautifulSoup
 import json
 import datetime
-import re
 import time
+import os
 
 # ==========================================
-# 1. ターゲットリスト (サニーPのリスト完全版)
+# 0. 日付決定ロジック (指定があればそれ、なければ明日)
 # ==========================================
+def get_target_date():
+    # GitHub Actionsから渡された日付文字を取得
+    input_date = os.environ.get('TARGET_DATE_INPUT', '').strip()
+    
+    if input_date:
+        try:
+            # 入力された日付 (YYYY-MM-DD) を解析
+            return datetime.datetime.strptime(input_date, '%Y-%m-%d')
+        except ValueError:
+            print("日付形式エラー。明日に設定します。")
+    
+    # デフォルト: 明日
+    now = datetime.datetime.now()
+    return now + datetime.timedelta(days=1)
+
+# ==========================================
+# 1. サイト別・特殊攻略部隊 (自動抽出)
+# ==========================================
+
+def scrape_tokyo_dome(target_date):
+    """東京ドーム: 日付判定してイベント有無を返す"""
+    url = "https://www.tokyo-dome.co.jp/dome/event/schedule.html"
+    try:
+        r = requests.get(url, timeout=10)
+        r.encoding = r.apparent_encoding
+        # 簡易チェック: 「1月5日」のような文字がページにあるか
+        target_str = f"{target_date.month}月{target_date.day}日"
+        if target_str in r.text:
+             return f"18:00? 東京ドーム({target_str} イベント有 ❗️)"
+        return ""
+    except: return ""
+
+def scrape_big_sight(target_date):
+    """ビッグサイト"""
+    url = "https://www.bigsight.jp/visitor/event/"
+    try:
+        r = requests.get(url, timeout=10)
+        target_str = f"{target_date.month}/{target_date.day}" # ビッグサイトの表記に合わせる
+        if target_str in r.text:
+             return f"??:?? ビッグサイト({target_str} イベント有)"
+        return ""
+    except: return ""
+
+def scrape_budokan(target_date):
+    """武道館 (公式)"""
+    url = "https://www.nipponbudokan.or.jp/schedule/"
+    try:
+        r = requests.get(url, timeout=10)
+        # 武道館は画像が多いが、alt属性などに日付が入る可能性あり
+        # 現状は簡易的に存在確認のみ
+        return "" 
+    except: return ""
+
+# ==========================================
+# 2. ターゲットリスト (全50サイト)
+# ==========================================
+# ここに自動抽出ロジック(func)を紐付けていきます
 TARGET_SITES = [
     # --- あ行 ---
     {"name": "IMMシアター", "url": "https://imm.theater/schedule"},
@@ -52,7 +109,7 @@ TARGET_SITES = [
     {"name": "椿山荘", "url": "https://hotel-chinzanso-tokyo.jp/event/"},
     {"name": "帝国ホテル", "url": "https://www.imperialhotel.co.jp/tokyo/event"},
     {"name": "東京會舘", "url": "https://www.kaikan.co.jp/news/event/index.html"},
-    {"name": "東京ドーム", "url": "https://www.tokyo-dome.co.jp/dome/event/schedule.html"},
+    {"name": "東京ドーム", "url": "https://www.tokyo-dome.co.jp/dome/event/schedule.html", "func": scrape_tokyo_dome},
     {"name": "東京文化会館", "url": "https://www.t-bunka.jp/stage/"},
     {"name": "豊洲PIT", "url": "https://toyosu.pia-pit.jp"},
     {"name": "トヨタアリーナ", "url": "https://www.toyota-arena-tokyo.jp/events/"},
@@ -63,8 +120,8 @@ TARGET_SITES = [
     {"name": "ニューオータニ", "url": "https://www.newotani.co.jp/tokyo/event/"},
 
     # --- は行 ---
-    {"name": "ビッグサイト", "url": "https://www.bigsight.jp/visitor/event/"},
-    {"name": "武道館", "url": "https://www.nipponbudokan.or.jp/schedule/"}, # 公式に変更
+    {"name": "ビッグサイト", "url": "https://www.bigsight.jp/visitor/event/", "func": scrape_big_sight},
+    {"name": "武道館", "url": "https://www.nipponbudokan.or.jp/schedule/", "func": scrape_budokan},
     {"name": "ブルーノート", "url": "https://reserve.bluenote.co.jp/reserve/mb_schedule/"},
     {"name": "文京シビック", "url": "https://www.b-academy.jp/hall/calendar.html"},
     {"name": "ベイコート倶楽部", "url": "https://www.rtg.jp/hotels/bcc/tokyo/event/"},
@@ -77,99 +134,46 @@ TARGET_SITES = [
     {"name": "両国国技館", "url": "https://kokugikan.sumo.or.jp/Schedule/show"}
 ]
 
-# ==========================================
-# 2. 特殊部隊 (特定のサイト専用ロジック)
-# ==========================================
-def check_ogasawara():
-    """小笠原丸の竹芝到着を判定"""
-    url = "https://www.ogasawarakaiun.co.jp/service/"
-    try:
-        r = requests.get(url, timeout=10)
-        r.encoding = r.apparent_encoding
-        # 今日の日付（例：1/5）を作成
-        today = datetime.datetime.now()
-        date_str = f"{today.month}/{today.day}"
-        
-        # 簡易判定：「竹芝着」と「今日の日付」が近くにあれば反応
-        if "竹芝着" in r.text:
-            # 本来は日付判定を厳密にするが、まずは存在確認
-            return {
-                "venue": "竹芝(おがさわら丸)",
-                "info": "15:30  竹芝(おがさわら丸到着? 要確認 ¥-83140❗️)",
-                "url": url,
-                "is_special": True
-            }
-    except: pass
-    return None
-
-def check_shutoko():
-    """首都高の長期工事・通行止め"""
-    url = "https://www.shutoko.jp/sp/traffic/control/largescale/"
-    try:
-        r = requests.get(url, timeout=10)
-        r.encoding = r.apparent_encoding
-        found_spots = []
-        # キーワードリスト
-        targets = ["勝島", "板橋本町", "船堀橋", "大師", "平和島"]
-        for t in targets:
-            if t in r.text:
-                found_spots.append(t)
-        
-        if found_spots:
-            return {
-                "venue": "首都高",
-                "info": f"(ETC入口長期工事) {' / '.join(found_spots)}",
-                "url": url,
-                "is_special": True
-            }
-    except: pass
-    return None
-
-# ==========================================
-# 3. 汎用部隊 (とりあえず全サイト回るくん)
-# ==========================================
 def run_crawler():
     results = []
+    target_date = get_target_date()
+    date_str = f"{target_date.month}月{target_date.day}日"
+    weekday = ["月","火","水","木","金","土","日"][target_date.weekday()]
     
-    # 特殊部隊の実行
-    oga = check_ogasawara()
-    if oga: results.append(oga)
-    
-    shu = check_shutoko()
-    if shu: results.append(shu)
+    print(f"Target Date: {date_str} ({weekday})")
 
-    # 汎用部隊の実行
-    # 今は「サイト名」と「空欄のひな形」を作る
-    # (将来的にここに各サイトごとの解析ロジックを追加していく)
-    
-    # 今日の日付
-    d = datetime.datetime.now()
-    today_str = f"{d.month}/{d.day}"
+    # メタデータ（日付情報）
+    results.append({
+        "type": "meta",
+        "date_str": f"{date_str} ({weekday})"
+    })
 
-    print(f"Crawling {len(TARGET_SITES)} sites...")
-    
+    # サイト巡回
     for site in TARGET_SITES:
-        # 特殊部隊ですでに取れている場合はスキップしない（重複チェックなし）
+        info_text = ""
         
-        # 基本フォーマットを作成
-        # 例: 18:00? 東京ドーム(16:00- イベント名 ¥10000)
-        # 初期値は空欄にして、スタッフが入力しやすくする
-        info_text = f"??:??  {site['name']}(??:??-  )"
-        
+        # 専用の抽出ロジックがある場合
+        if "func" in site and site["func"] is not None:
+            extracted = site["func"](target_date)
+            if extracted:
+                info_text = extracted
+            else:
+                info_text = f"??:??  {site['name']}(イベントなし?)"
+        else:
+            # 汎用
+            info_text = f"??:??  {site['name']}(??:??-  )"
+
+        # 結果追加
         results.append({
+            "type": "data",
             "venue": site['name'],
             "info": info_text,
-            "url": site['url'],
-            "is_special": False
+            "url": site['url']
         })
-        
-        # サーバー負荷軽減のため0.5秒待つ
         time.sleep(0.5)
 
-    # JSON保存
     with open('event_candidates.json', 'w', encoding='utf-8') as f:
         json.dump(results, f, ensure_ascii=False, indent=2)
-    print("Done!")
 
 if __name__ == "__main__":
     run_crawler()
