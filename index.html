@@ -5,49 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KASETACK EVENT EDITOR</title>
     <style>
-        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 10px; padding-bottom: 100px; }
+        body { background: #121212; color: #e0e0e0; font-family: -apple-system, BlinkMacSystemFont, sans-serif; padding: 10px; padding-bottom: 120px; }
+        
+        /* ここが新しい「日付表示エリア」のデザインです */
+        .date-header {
+            position: sticky; top: 0; background: #000; z-index: 100;
+            padding: 10px; border-bottom: 2px solid #FFD700;
+            text-align: center; font-size: 1.2rem; font-weight: bold; color: #FFD700;
+            margin: -10px -10px 10px -10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
         .candidate-card { 
             background: #1e1e1e; border: 1px solid #333; padding: 10px; 
             margin-bottom: 12px; border-radius: 6px;
         }
         .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .venue-name { font-size: 0.8rem; color: #aaa; font-weight: bold; }
-        .link-btn { text-decoration: none; color: #00b0ff; font-size: 0.75rem; border: 1px solid #00b0ff; padding: 2px 6px; border-radius: 4px; }
+        .venue-name { font-size: 0.9rem; color: #fff; font-weight: bold; }
+        .link-btn { text-decoration: none; color: #00b0ff; font-size: 0.75rem; border: 1px solid #00b0ff; padding: 2px 8px; border-radius: 4px; }
         
         input[type="text"] { 
-            width: 100%; background: #2a2a2a; color: #fff; border: 1px solid #444; 
-            padding: 10px; margin-bottom: 8px; border-radius: 4px; box-sizing: border-box; font-size: 1rem;
+            width: 100%; background: #2a2a2a; color: #fff; border: 1px solid #555; 
+            padding: 12px; margin-bottom: 8px; border-radius: 4px; box-sizing: border-box; font-size: 1rem;
         }
-        .controls { display: flex; gap: 15px; background: #252525; padding: 8px; border-radius: 4px; }
+        .controls { display: flex; gap: 15px; background: #252525; padding: 10px; border-radius: 4px; }
         label { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer; color: #FFD700; }
         
-        #preview-area { 
-            background: #000; color: #00ff00; padding: 15px; border: 1px solid #FFD700; 
-            margin-top: 20px; border-radius: 8px; font-family: monospace; white-space: pre-wrap; font-size: 0.85rem;
-        }
+        /* 固定ボタン */
         .action-btn { 
-            position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #000;
-            width: 65px; height: 65px; border-radius: 50%; border: none; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-size: 0.8rem; cursor: pointer; z-index: 999;
+            position: fixed; bottom: 30px; right: 30px; background: #FFD700; color: #000;
+            width: 70px; height: 70px; border-radius: 50%; border: none; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5); font-size: 0.85rem; cursor: pointer; z-index: 999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
     </style>
 </head>
 <body>
-    <h3 style="color:#FFD700; margin-top:0;">🚀 EVENT EDITOR</h3>
-    <div id="list-container"><p>データを読み込み中...</p></div>
-    <button class="action-btn" onclick="generateReport()">生成<br>COPY</button>
+    <div class="date-header" id="target-date-display">
+        対象日: 読み込み中...
+    </div>
+
+    <div id="list-container"><p style="text-align:center">データを取得中...</p></div>
+
+    <button class="action-btn" onclick="generateReport()">
+        <span>生成</span>
+        <span style="font-size:0.7em">COPY</span>
+    </button>
     
     <div style="margin-top:20px; color:#fff;">📝 プレビュー</div>
-    <div id="preview-area"></div>
+    <div id="preview-area" style="background:#000; padding:10px; border:1px solid #555; white-space:pre-wrap; font-family:monospace;"></div>
 
     <script>
         let currentData = [];
+        let targetDateStr = "";
+
         async function loadData() {
             try {
+                // キャッシュを無視して最新のデータを読みに行く
                 const response = await fetch('event_candidates.json?t=' + Date.now());
-                currentData = await response.json();
+                const json = await response.json();
+                
+                // メタデータ（日付）が入っていれば表示を更新
+                const meta = json.find(item => item.type === "meta");
+                if (meta) {
+                    targetDateStr = meta.date_str;
+                    document.getElementById('target-date-display').innerText = `📅 対象日: ${targetDateStr}`;
+                }
+
+                // データ部分のみ抽出してリスト表示
+                currentData = json.filter(item => item.type === "data");
                 render();
-            } catch (e) { document.getElementById('list-container').innerText = "データ準備中...Actionを実行してください"; }
+            } catch (e) { 
+                document.getElementById('list-container').innerText = "データ準備中...Actionを実行してください"; 
+            }
         }
 
         function render() {
@@ -68,12 +98,7 @@
         }
 
         function generateReport() {
-            const now = new Date();
-            const days = ["日","月","火","水","木","金","土"];
-            // 明日の日付にする場合
-            now.setDate(now.getDate() + 1); 
-            
-            let report = `${now.getMonth()+1}/${now.getDate()} (${days[now.getDay()]})\n\n[ピックアップ]\n`;
+            let report = `${targetDateStr}\n\n[ピックアップ]\n`;
             let schedules = "\n[時刻表]\n";
             
             currentData.forEach((item, idx) => {
@@ -87,8 +112,9 @@
 
             const final = report + schedules + "\n[通行止]\n予定なし\n\n(ETC入口長期工事)\nC2外 船堀橋\n5号両 板橋本町";
             document.getElementById('preview-area').innerText = final;
-            navigator.clipboard.writeText(final);
-            alert("コピーしました！");
+            navigator.clipboard.writeText(final).then(() => {
+                alert("コピー完了！\nDiscordに貼り付けてください。");
+            });
         }
         loadData();
     </script>
