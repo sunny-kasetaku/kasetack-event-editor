@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KASETACK EVENT EDITOR</title>
+    <style>
+        body { background: #121212; color: #e0e0e0; font-family: sans-serif; padding: 15px; margin: 0; }
+        h2 { color: #FFD700; border-bottom: 2px solid #FFD700; padding-bottom: 5px; }
+        .candidate-card { 
+            background: #1e1e1e; border: 1px solid #333; padding: 12px; 
+            margin-bottom: 15px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+        input[type="text"] { 
+            width: 100%; background: #2a2a2a; color: #fff; border: 1px solid #444; 
+            padding: 8px; margin: 8px 0; border-radius: 4px; box-sizing: border-box;
+        }
+        .controls { display: flex; justify-content: space-around; background: #252525; padding: 8px; border-radius: 4px; }
+        label { font-size: 0.9rem; display: flex; align-items: center; gap: 5px; cursor: pointer; }
+        
+        #preview-area { 
+            background: #000; color: #00ff00; padding: 15px; border: 1px solid #FFD700; 
+            margin-top: 20px; border-radius: 8px; font-family: 'Courier New', monospace;
+            min-height: 100px; white-space: pre-wrap;
+        }
+        .action-btn { 
+            position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #000;
+            width: 60px; height: 60px; border-radius: 50%; border: none; font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5); font-size: 0.8rem; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h2>🚀 EVENT EDITOR</h2>
+    
+    <div id="list-container">
+        <p style="color: #888;">データを読み込み中、または候補がありません...</p>
+    </div>
+
+    <button class="action-btn" onclick="generateReport()">生成<br>COPY</button>
+
+    <h3>📝 プレビュー (下書き)</h3>
+    <div id="preview-area" id="output-text">選んだ内容がここに整形されます</div>
+
+    <script>
+        // サンプルデータ（本来は event_candidates.json から読み込みます）
+        const sampleData = [
+            { id: 1, text: "18:00? 武道館(16:00- 〇〇ライブ ¥11000❗️)" },
+            { id: 2, text: "15:30  竹芝(おがさわら丸到着予定 ¥ -83140❗️)" },
+            { id: 3, text: "(ETC入口長期工事) C2外 船堀橋" }
+        ];
+
+        function init() {
+            const container = document.getElementById('list-container');
+            container.innerHTML = sampleData.map(item => `
+                <div class="candidate-card">
+                    <input type="text" value="${item.text}" id="input-${item.id}">
+                    <div class="controls">
+                        <label><input type="checkbox" class="pick" data-id="${item.id}"> ⭐ピック</label>
+                        <label><input type="checkbox" class="list" data-id="${item.id}"> 📅時刻表</label>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateReport() {
+            let picks = "[ピックアップ]\n";
+            let schedules = "\n[時刻表]\n";
+            
+            sampleData.forEach(item => {
+                const val = document.getElementById(`input-${item.id}`).value;
+                const isPick = document.querySelector(`.pick[data-id="${item.id}"]`).checked;
+                const isList = document.querySelector(`.list[data-id="${item.id}"]`).checked;
+                
+                if (isPick) picks += val + "\n";
+                if (isList) schedules += val + "\n";
+            });
+
+            const finalReport = picks + schedules + "\n[通行止]\n予定なし";
+            document.getElementById('preview-area').innerText = finalReport;
+            
+            // クリップボードにコピー
+            navigator.clipboard.writeText(finalReport).then(() => {
+                alert("レポートをコピーしました！");
+            });
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
